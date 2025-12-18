@@ -5,7 +5,9 @@ import { supabase } from '@/services/supabase';
 interface AuthContextData {
   isAuthenticated: boolean;
   user: any;
+  loading: boolean;
   signIn(email: string, password: string): Promise<void>;
+  signUp(email: string, password: string): Promise<void>;
   signOut(): Promise<void>;
 }
 
@@ -13,20 +15,29 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user ?? null);
+      setLoading(false);
+    });
+  
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
-
+  
     return () => subscription.unsubscribe();
   }, []);
-
+  
   async function signIn(email: string, password: string) {
-    const { user } = await authService.loginWithEmail(email, password);
-    setUser(user);
+    await authService.loginWithEmail(email, password);
+  }
+
+  async function signUp(email: string, password: string) {
+    await authService.registerWithEmail(email, password);
   }
 
   async function signOut() {
@@ -39,7 +50,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       value={{
         isAuthenticated: !!user,
         user,
+        loading,
         signIn,
+        signUp,
         signOut,
       }}
     >

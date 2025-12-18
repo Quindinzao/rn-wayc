@@ -28,9 +28,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 56,
     borderRadius: 4,
-    backgroundColor: "#9225eb",
+    backgroundColor: "#4e948f",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 16,
   },
   disabled: {
     opacity: 0.5,

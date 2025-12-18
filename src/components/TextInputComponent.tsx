@@ -1,36 +1,29 @@
-// components/TextInputComponent.tsx
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native';
 
-interface TextInputComponentProps {
+interface TextInputComponentProps extends TextInputProps {
   label?: string;
-  value: string;
-  onChangeText: (text: string) => void;
-  placeholder?: string;
-  secureTextEntry?: boolean;
-  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
+  error?: string | null;
 }
 
 export function TextInputComponent({
   label,
-  value,
-  onChangeText,
-  placeholder,
-  secureTextEntry = false,
-  autoCapitalize = 'none',
+  error,
+  ...props
 }: TextInputComponentProps) {
   return (
     <View style={styles.container}>
       {label && <Text style={styles.label}>{label}</Text>}
 
       <TextInput
-        style={styles.input}
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        secureTextEntry={secureTextEntry}
-        autoCapitalize={autoCapitalize}
+        {...props}
+        style={[
+          styles.input,
+          error && styles.inputError,
+        ]}
         placeholderTextColor="#9CA3AF"
       />
+
+      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
 }
@@ -52,5 +45,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#cfcfcf',
     backgroundColor: '#212121',
+    borderWidth: 1,
+    borderColor: '#2a2a2a',
+  },
+  inputError: {
+    borderColor: '#b91c1c',
+  },
+  errorText: {
+    marginTop: 4,
+    fontSize: 12,
+    color: '#fca5a5',
   },
 });

@@ -1,24 +1,55 @@
 import { ButtonComponent } from '@/components/ButtonComponent';
-import { ErrorComponent } from '@/components/ErrorComponent';
 import { TextInputComponent } from '@/components/TextInputComponent';
 import { useAuth } from '@/contexts/AuthContext';
 import { loginSchema } from '@/utils/validators/auth';
+import { showErrorToast } from '@/utils/toast';
 import { useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 export default function AuthScreen() {
-  const { signIn } = useAuth();
+  const { signIn, signUp } = useAuth();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+
+  function validateForm() {
+    const result = loginSchema.safeParse({ email, password });
+
+    if (!result.success) {
+      const errors = result.error.flatten().fieldErrors;
+
+      setEmailError(errors.email?.[0] ?? null);
+      setPasswordError(errors.password?.[0] ?? null);
+
+      showErrorToast('Verifique os campos');
+      return false;
+    }
+
+    setEmailError(null);
+    setPasswordError(null);
+    return true;
+  }
 
   async function handleLogin() {
+    if (!validateForm()) return;
+
     try {
       await signIn(email, password);
-      setError(null);
     } catch (err: any) {
-      console.log(err);
-      setError(err?.description || "Erro ao autenticar");
+      showErrorToast(err?.description || 'Erro ao autenticar');
+    }
+  }
+
+  async function handleRegister() {
+    if (!validateForm()) return;
+
+    try {
+      await signUp(email, password);
+      showErrorToast('Conta criada com sucesso'); // ou toast de sucesso
+    } catch (err: any) {
+      showErrorToast(err?.description || 'Erro ao criar conta');
     }
   }
 
@@ -29,6 +60,8 @@ export default function AuthScreen() {
         value={email}
         onChangeText={setEmail}
         placeholder="email@exemplo.com"
+        keyboardType="email-address"
+        error={emailError}
       />
 
       <TextInputComponent
@@ -37,6 +70,7 @@ export default function AuthScreen() {
         onChangeText={setPassword}
         placeholder="********"
         secureTextEntry
+        error={passwordError}
       />
 
       <ButtonComponent
@@ -44,7 +78,10 @@ export default function AuthScreen() {
         onPress={handleLogin}
       />
 
-      <ErrorComponent error={error} />
+      <ButtonComponent
+        title="Criar conta"
+        onPress={handleRegister}
+      />
     </View>
   );
 }

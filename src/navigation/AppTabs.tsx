@@ -1,14 +1,14 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FeedScreen from '@/screens/FeedScreen';
 import AddPhotoScreen from '@/screens/AddPhotosScreen';
 
-const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-export default function AppTabs() {
+export default function AppStack() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Feed" component={FeedScreen} />
-      <Tab.Screen name="AddPhoto" component={AddPhotoScreen} />
-    </Tab.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Feed" component={FeedScreen} />
+      <Stack.Screen name="AddPhoto" component={AddPhotoScreen} />
+    </Stack.Navigator>
   );
 }
