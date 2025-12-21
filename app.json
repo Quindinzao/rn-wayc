@@ -34,7 +34,14 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O app acessa suas fotos para criar postagens.",
+          "cameraPermission": "O app acessa a câmera para tirar fotos de código."
+        }
+      ]
     ]
   }
 }

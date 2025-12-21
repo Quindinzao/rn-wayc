@@ -17,7 +17,6 @@ export default function CircleButtonComponent({
   );
 }
 
-
 const styles = StyleSheet.create({
   fab: {
     position: 'absolute',

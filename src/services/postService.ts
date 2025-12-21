@@ -4,7 +4,6 @@ import { CreatePostPayload, Post } from '@/types/Post';
 const PAGE_SIZE = 10;
 
 const postService = {
-  // CREATE
   async create(payload: CreatePostPayload): Promise<Post> {
     const {
       data: { user },
@@ -42,7 +41,6 @@ const postService = {
     return data;
   },
 
-  // LIST (paginação)
   async getAll(page = 1): Promise<Post[]> {
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;
@@ -63,7 +61,6 @@ const postService = {
     return data ?? [];
   },
 
-  // GET BY ID
   async getById(id: string): Promise<Post> {
     const { data, error } = await supabase
       .from('posts')

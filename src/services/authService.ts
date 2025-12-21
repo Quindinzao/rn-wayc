@@ -22,7 +22,6 @@ const authService = {
         throw error;
       }
 
-      // Persistência local (opcional, mas útil)
       await AsyncStorage.setItem(
         'supabaseSession',
         JSON.stringify(data.session)

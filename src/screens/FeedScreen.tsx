@@ -4,8 +4,10 @@ import {
   StyleSheet,
   Text,
   View,
+  RefreshControl,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
 import postService from '@/services/postService';
 import { Post } from '@/types/Post';
 import PostCardComponent from '@/components/PostCardComponent';
@@ -18,11 +20,13 @@ export default function FeedScreen() {
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function loadPosts() {
+  async function loadPosts(showLoader = true) {
     try {
-      setLoading(true);
+      if (showLoader) setLoading(true);
+
       const data = await postService.getAll(1);
       setPosts(data);
       setError(null);
@@ -30,12 +34,18 @@ export default function FeedScreen() {
       setError('Erro ao carregar postagens');
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   }
 
   useEffect(() => {
     loadPosts();
   }, []);
+
+  function onRefresh() {
+    setRefreshing(true);
+    loadPosts(false);
+  }
 
   function renderContent() {
     if (loading) {
@@ -56,9 +66,17 @@ export default function FeedScreen() {
       <FlatList
         data={posts}
         keyExtractor={(item) => item.id}
-        renderItem={(e) => <PostCardComponent item={e.item} />}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        renderItem={({ item }) => <PostCardComponent item={item} />}
+        contentContainerStyle={{ paddingBottom: 120 }}
         ListEmptyComponent={() => <EmptyComponent />}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor="#fff"
+            colors={['#4e948f']}
+          />
+        }
       />
     );
   }
@@ -66,10 +84,12 @@ export default function FeedScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Your Feed</Text>
+
       {renderContent()}
 
-      <CircleButtonComponent onPress={() => navigation.navigate("CreatePost")} />
-
+      <CircleButtonComponent
+        onPress={() => navigation.navigate('CreatePost')}
+      />
     </View>
   );
 }
@@ -85,12 +105,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     paddingTop: 40,
     paddingBottom: 12,
-    fontFamily: 'Nunito_700Bold'
-  },
-  info: {
-    color: '#cfcfcf',
-    textAlign: 'center',
-    marginTop: 40,
+    fontFamily: 'Nunito_700Bold',
   },
   error: {
     color: '#ff6b6b',

@@ -47,7 +47,7 @@ export default function AuthScreen() {
 
     try {
       await signUp(email, password);
-      showErrorToast('Conta criada com sucesso'); // ou toast de sucesso
+      showErrorToast('Conta criada com sucesso');
     } catch (err: any) {
       showErrorToast(err?.description || 'Erro ao criar conta');
     }
