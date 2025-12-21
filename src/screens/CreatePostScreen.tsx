@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, View, Image, Alert } from 'react-native';
+import { Text, StyleSheet, View, Image, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 
@@ -107,6 +107,7 @@ export default function CreatePostScreen() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Adicione uma publicação</Text>
       <TextInputComponent
         label="Título"
         value={title}
@@ -154,8 +155,16 @@ export default function CreatePostScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
     padding: 16,
     backgroundColor: '#1b1b1b',
+  },
+  title: {
+    fontSize: 24,
+    color: '#fff',
+    fontFamily: 'Nunito_700Bold',
+    marginBottom: 16,
+    textAlign: 'center',
   },
   image: {
     width: '100%',

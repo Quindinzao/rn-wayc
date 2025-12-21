@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
   fabText: {
     color: '#fff',
     fontSize: 28,
-    lineHeight: 36,
     fontFamily: 'Nunito_600SemiBold'
   },
 });

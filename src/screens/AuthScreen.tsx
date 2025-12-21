@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { loginSchema } from '@/utils/validators/auth';
 import { showErrorToast } from '@/utils/toast';
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function AuthScreen() {
   const { signIn, signUp } = useAuth();
@@ -55,6 +55,7 @@ export default function AuthScreen() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>WAYC</Text>
       <TextInputComponent
         label="Email"
         value={email}
@@ -93,5 +94,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 12,
     backgroundColor: '#1b1b1b',
+  },
+  title: {
+    fontSize: 24,
+    color: '#fff',
+    fontFamily: 'Nunito_700Bold',
+    marginBottom: 16,
+    textAlign: 'center',
   },
 });
