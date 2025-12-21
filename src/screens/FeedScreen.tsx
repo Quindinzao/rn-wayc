@@ -5,12 +5,14 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Image,
 } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
 import postService from '@/services/postService';
 import { Post } from '@/types/Post';
+import PostCardComponent from '@/components/PostCardComponent';
+import EmptyComponent from '@/components/EmptyComponent';
+import PostCardSkeletonComponent from '@/components/PostCardSkeletonComponent';
+import CircleButtonComponent from '@/components/CircleButtonComponent';
 
 export default function FeedScreen() {
   const navigation = useNavigation<any>();
@@ -36,81 +38,38 @@ export default function FeedScreen() {
     loadPosts();
   }, []);
 
-  function resolveBase64Image(base64?: string | null) {
-    if (!base64) return null;
-
-    if (base64.startsWith('data:image')) {
-      return base64;
-    }
-
-    return `data:image/jpeg;base64,${base64}`;
-  }
-
-  function renderItem({ item }: { item: Post }) {
-    const imageUri = resolveBase64Image(item.image_url);
-
-    return (
-      <View style={styles.card}>
-        {imageUri && (
-          <Image
-            source={{ uri: imageUri }}
-            style={styles.image}
-            resizeMode="cover"
-          />
-        )}
-
-        <Text style={styles.title}>{item.title}</Text>
-
-        {item.description && (
-          <Text style={styles.description}>{item.description}</Text>
-        )}
-
-        <Text style={styles.meta}>
-          Lat: {item.latitude.toFixed(4)} | Lng:{' '}
-          {item.longitude.toFixed(4)}
-        </Text>
-      </View>
-    );
-  }
-
   function renderContent() {
     if (loading) {
-      return <Text style={styles.info}>Carregando...</Text>;
+      return (
+        <>
+          <PostCardSkeletonComponent />
+          <PostCardSkeletonComponent />
+          <PostCardSkeletonComponent />
+        </>
+      );
     }
 
     if (error) {
       return <Text style={styles.error}>{error}</Text>;
     }
 
-    if (posts.length === 0) {
-      return (
-        <Text style={styles.info}>
-          Nenhuma postagem encontrada 📭
-        </Text>
-      );
-    }
-
     return (
       <FlatList
         data={posts}
         keyExtractor={(item) => item.id}
-        renderItem={renderItem}
+        renderItem={(e) => <PostCardComponent item={e.item} />}
         contentContainerStyle={{ paddingBottom: 100 }}
+        ListEmptyComponent={() => <EmptyComponent />}
       />
     );
   }
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Your Feed</Text>
       {renderContent()}
 
-      <TouchableOpacity
-        activeOpacity={0.7}
-        style={styles.fab}
-        onPress={() => navigation.navigate('CreatePost')}
-      >
-        <Text style={styles.fabText}>＋</Text>
-      </TouchableOpacity>
+      <CircleButtonComponent onPress={() => navigation("CreatePost")} />
 
     </View>
   );
@@ -122,32 +81,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#121212',
     padding: 12,
   },
-  card: {
-    backgroundColor: '#1e1e1e',
-    borderRadius: 6,
-    padding: 12,
-    marginBottom: 12,
-  },
-  image: {
-    width: '100%',
-    height: 200,
-    borderRadius: 6,
-    marginBottom: 10,
-    backgroundColor: '#000',
-  },
   title: {
-    color: '#fff',
-    fontSize: 16,
+    fontSize: 24,
     fontWeight: '700',
-  },
-  description: {
-    color: '#cfcfcf',
-    marginTop: 4,
-  },
-  meta: {
-    marginTop: 6,
-    fontSize: 12,
-    color: '#9ca3af',
+    color: '#fff',
+    paddingTop: 40,
+    paddingBottom: 12,
   },
   info: {
     color: '#cfcfcf',
@@ -158,22 +97,5 @@ const styles = StyleSheet.create({
     color: '#ff6b6b',
     textAlign: 'center',
     marginTop: 40,
-  },
-  fab: {
-    position: 'absolute',
-    right: 20,
-    bottom: 30,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#4f46e5',
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 4,
-  },
-  fabText: {
-    color: '#fff',
-    fontSize: 32,
-    lineHeight: 36,
   },
 });
