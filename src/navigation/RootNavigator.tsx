@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { useAuth } from '@/contexts/AuthContext';
 import AuthStack from '@/navigation/AuthStack';
-import AppTabs from '@/navigation/AppTabs';
+import AppStack from '@/navigation/AppStack';
 
 export default function RootNavigator() {
   const { isAuthenticated, loading } = useAuth();
@@ -17,7 +17,7 @@ export default function RootNavigator() {
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? <AppTabs /> : <AuthStack />}
+      {isAuthenticated ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }

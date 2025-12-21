@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FeedScreen from '@/screens/FeedScreen';
-import AddPhotoScreen from '@/screens/AddPhotosScreen';
+import CreatePostScreen from '@/screens/CreatePostScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -8,7 +8,7 @@ export default function AppStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Feed" component={FeedScreen} />
-      <Stack.Screen name="AddPhoto" component={AddPhotoScreen} />
+      <Stack.Screen name="CreatePost" component={CreatePostScreen} />
     </Stack.Navigator>
   );
 }
