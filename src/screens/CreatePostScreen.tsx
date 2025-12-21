@@ -114,6 +114,8 @@ export default function CreatePostScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 16,
     backgroundColor: '#1b1b1b',
   },

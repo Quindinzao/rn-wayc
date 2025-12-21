@@ -3,11 +3,13 @@ import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { useAuth } from '@/contexts/AuthContext';
 import AuthStack from '@/navigation/AuthStack';
 import AppStack from '@/navigation/AppStack';
+import { useFonts } from '@/hooks/useFonts';
 
 export default function RootNavigator() {
+  const fontsLoaded = useFonts();
   const { isAuthenticated, loading } = useAuth();
 
-  if (loading) {
+  if (loading || !fontsLoaded) {
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" />

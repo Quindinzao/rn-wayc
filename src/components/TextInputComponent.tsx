@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     fontSize: 14,
     color: '#dfdfdf',
+    fontFamily: 'Nunito_400Regular'
   },
   input: {
     height: 56,
@@ -47,13 +48,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#212121',
     borderWidth: 1,
     borderColor: '#2a2a2a',
+    fontFamily: 'Nunito_400Regular'
   },
   inputError: {
     borderColor: '#b91c1c',
+    fontFamily: 'Nunito_400Regular'
   },
   errorText: {
     marginTop: 4,
     fontSize: 12,
     color: '#fca5a5',
+    fontFamily: 'Nunito_400Regular'
   },
 });

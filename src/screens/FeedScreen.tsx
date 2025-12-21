@@ -3,7 +3,6 @@ import {
   FlatList,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -69,7 +68,7 @@ export default function FeedScreen() {
       <Text style={styles.title}>Your Feed</Text>
       {renderContent()}
 
-      <CircleButtonComponent onPress={() => navigation("CreatePost")} />
+      <CircleButtonComponent onPress={() => navigation.navigate("CreatePost")} />
 
     </View>
   );
@@ -83,10 +82,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: '700',
     color: '#fff',
     paddingTop: 40,
     paddingBottom: 12,
+    fontFamily: 'Nunito_700Bold'
   },
   info: {
     color: '#cfcfcf',

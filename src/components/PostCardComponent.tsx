@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   title: {
     color: '#fff',
     fontSize: 20,
-    fontWeight: '700',
+    fontFamily: 'Nunito_700Bold'
   },
   image: {
     width: '100%',
@@ -52,10 +52,12 @@ const styles = StyleSheet.create({
   description: {
     color: '#cfcfcf',
     marginTop: 4,
+    fontFamily: 'Nunito_400Regular'
   },
   meta: {
     marginTop: 6,
     fontSize: 12,
     color: '#9ca3af',
+    fontFamily: 'Nunito_400Regular'
   },
 });

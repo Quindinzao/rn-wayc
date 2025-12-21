@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#FFF",
-    fontWeight: "600",
     fontSize: 16,
+    fontFamily: 'Nunito_600SemiBold'
   },
 });
