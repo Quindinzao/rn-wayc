@@ -1,13 +1,15 @@
 import { useBase64Image } from "@/hooks/useBase64Image";
 import { Post } from "@/types/Post";
+import { useNavigation } from "@react-navigation/native";
 import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 export default function PostCardComponent({ item }: { item: Post }) {
+  const navigation = useNavigation<any>();
   const { resolveBase64Image } = useBase64Image();
   const imageUri = resolveBase64Image(item.image_url);
 
   return (
-    <TouchableOpacity style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('PostDetail', { post: item })}>
       {imageUri && (
         <Image
           source={{ uri: imageUri }}

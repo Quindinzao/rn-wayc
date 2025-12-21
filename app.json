@@ -23,7 +23,12 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.quindim.WAYC"
+      "package": "com.quindim.WAYC",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAAC6Q4FFDIUVy14uV78hGLr_aO6rX3ScQ"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
