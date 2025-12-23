@@ -9,12 +9,16 @@ export default function RootNavigator() {
   const fontsLoaded = useFonts();
   const { isAuthenticated, loading } = useAuth();
 
-  if (loading || !fontsLoaded) {
+  if (loading) {
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" />
       </View>
     );
+  }
+
+  if (!fontsLoaded) {
+    return null;
   }
 
   return (
